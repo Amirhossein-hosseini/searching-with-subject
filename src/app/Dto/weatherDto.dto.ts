@@ -6,6 +6,5 @@ export class weatherDto{
   distance?:string
   weather_state_name?:string
   weather_state_abbr?:string
-  applicable_date?:string
-  weather_state_abbrv?:string
+  // applicable_date?:string
 }

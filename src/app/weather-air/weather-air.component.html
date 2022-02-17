@@ -1,41 +1,43 @@
 
+<div class="container">
+  <div class="row justify-content-center">
 
-<div class="row justify-content-center">
+    <div class="col-md-6 offset-sm-3 mt-4 ">
+      <input  placeholder="searching..."  #SearchBox (input)="search(SearchBox.value)">
+      <button type="button" class="btn btn-primary ml-2" (click)="findCityByGetCity(SearchBox.value)" id="" >click</button>
+      <br><br>
+      <div class="loading" *ngIf="loading">
+        loading...
+      </div>
+      <table class="table ">
+        <thead>
+          <tr>
+            <th>Name City</th>
+            <!-- <th>weather_state_name</th> -->
+            <th>weather woeid</th>
+            <th > weatherImage</th>
 
-  <div class="col-md-6 offset-sm-3 ">
-    <input  placeholder="searching..."  #SearchBox (input)="search(SearchBox.value)">
-    <button type="button" class="btn btn-primary" (click)="findCityByGetCity(SearchBox.value)" id="">click</button>
-    <br><br>
-    <div class="loading" *ngIf="loading">
-      loading...
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of searching |async">
+
+            <td>{{item.title}}</td>
+
+            <td>{{item.woeid}}</td>
+            <!-- <td  >{{f.weather_state_name}}</td> -->
+            <td *ngIf="item && item.weather_state_abbr">
+                <img src="https://www.metaweather.com/api/location/img/weather/png/{{item.weather_state_abbr}}.png">
+            </td>
+
+          </tr>
+         </tbody>
+      </table>
+
+
     </div>
-    <table class="table ">
-      <thead>
-        <tr>
-          <th>Name City</th>
-          <!-- <th>weather_state_name</th> -->
-          <th>weather woeid</th>
-          <th > weatherImage</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of searching | async ">
-
-          <td>{{item.title}}</td>
-
-          <td>{{item.woeid}}</td>
-          <!-- <td  >{{f.weather_state_name}}</td> -->
-          <td *ngIf=" item && item.weather_state_abbr">
-              <img src="https://www.metaweather.com/api/static/img/weather/png/{{item.weather_state_abbr}}.png">
-          </td>
-
-        </tr>
-       </tbody>
-    </table>
-
-
   </div>
+
+
+
 </div>
-
-

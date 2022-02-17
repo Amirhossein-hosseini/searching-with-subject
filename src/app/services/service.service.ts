@@ -17,15 +17,15 @@ export class weatherservice {
   getCityByApi(query:string):Observable<weatherDto[]>{
     let params = new HttpParams()
     .set('query',query)
-    // .set('title','title')
+     .set('title','title')
 
     return this.http.get<weatherDto[]>(this.url,{params})
   }
 
-  getLocationByWoeid(woeid:number,applicable_date:string):Observable<weatherDto[]>{
+  getLocationByWoeid(woeid:number):Observable<weatherDto[]>{
     let params = new HttpParams()
     .set('woeid',woeid)
-    .set('applicable_date',applicable_date)
+    // .set('applicable_date',applicable_date)
     return this.http.get<weatherDto[]>(this.url2,{params})
   }
 
