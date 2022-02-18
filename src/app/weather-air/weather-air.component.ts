@@ -20,19 +20,43 @@ withRefresh = false
 
   ngOnInit(): void {
 
+   this.searching = this.route.params.pipe(
+     switchMap((param) =>this.getCity(param['woeid'])),
+     map((res) =>res)
+   )
 
 
-    this.searching = this.subject.pipe(
+
+     this.searching = this.subject.pipe(
       tap(_ =>this.loading =true),
       debounceTime(300),
       distinctUntilChanged(),
-      concatMap((term) =>this.weatherService.getCityByApi(term)),
+      switchMap((term) =>this.findCityByGetCity(term)),
       tap(_ =>this.loading = false),
 
 
     )
-  }
 
+
+    //  this.searching = this.subject.pipe(
+    //   tap(_ =>this.loading =true),
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   concatMap((term) =>this.weatherService.getCityByApi(term)),
+    //   tap(_ =>this.loading = false),
+
+
+    // )
+
+
+//  this.route.params.subscribe((params) =>{
+//       return this.getCity(params['woeid']).pipe(
+//         map((res) =>res.filter((res) =>res.woeid === res.woeid))
+//       )
+
+//     }
+//)
+     }
 
 
   search($event:any){
@@ -45,11 +69,10 @@ withRefresh = false
 
 
   getCity(woeid:number):Observable<weatherDto[]>{
-      return this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(
-        map((res) =>res.concat())
-      )
 
-
+  return this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(
+    map((res) =>res)
+  )
 
 
   }
@@ -62,19 +85,13 @@ withRefresh = false
 
 
   findCityByGetCity(city:string){
-
-
 return this.searching = this.weatherService.getCityByApi(city).pipe(
 
-  map((res) =>res.filter((res) =>res.title === res.title && res.latt_long === res.latt_long)),
+  map((res) =>res.filter((res) =>res.title === res.title)),
 
-  catchError(err => {throw 'error in get city name from api ' + err.status
+  catchError(err => {throw 'error in get city name from api ' + err.status})
 
-
-})
-
-)
-
+ )
   }
 }
 

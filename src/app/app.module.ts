@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { weatherservice } from './services/service.service';
 import { WeatherAirComponent } from './weather-air/weather-air.component';
 import { FormsModule } from '@angular/forms';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [weatherservice],
   bootstrap: [AppComponent]
