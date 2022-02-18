@@ -1,9 +1,10 @@
 import { weatherservice } from './../services/service.service';
 import { Component, OnInit } from '@angular/core';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, Observable, pipe, Subject, switchMap, tap, throwError,mergeMap, concatMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, Observable, pipe, Subject, switchMap, tap, throwError,mergeMap, concatMap, of } from 'rxjs';
 import { weatherDto } from '../Dto/weatherDto.dto';
 import { weathergetWoeid } from '../Dto/weathergetWoeid.st,'
 import * as _ from 'lodash'
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 @Component({
   selector: 'app-weather-air',
   templateUrl: './weather-air.component.html',
@@ -11,25 +12,22 @@ import * as _ from 'lodash'
 })
 export class WeatherAirComponent implements OnInit {
 //  weatherData:weatherDto[] = []
+withRefresh = false
  searching!:Observable<weatherDto[]>
  private subject = new Subject<string>()
  loading:boolean =false
- searchText = ''
-  constructor(private weatherService:weatherservice) { }
+  constructor(private weatherService:weatherservice, private route:ActivatedRoute,private router:Router) { }
 
   ngOnInit(): void {
 
-// this.search$()
 
 
     this.searching = this.subject.pipe(
       tap(_ =>this.loading =true),
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((res) =>this.weatherService.getCityByApi(res)),
+      concatMap((term) =>this.weatherService.getCityByApi(term)),
       tap(_ =>this.loading = false),
-      // catchError(err => {throw 'error in get woeid from api ' + err})
-
 
 
     )
@@ -47,20 +45,13 @@ export class WeatherAirComponent implements OnInit {
 
 
   getCity(woeid:number):Observable<weatherDto[]>{
-
- return  this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(
-      map((res) =>res.filter((res) =>res.woeid === res.woeid   )),
-
- catchError(err => {throw 'error in get woeid from api ' + err})
-   )
+      return this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(
+        map((res) =>res.concat())
+      )
 
 
 
-  }
 
-  getAlll(){
-    const data = this.searching
-    return data
   }
 
 
@@ -68,13 +59,19 @@ export class WeatherAirComponent implements OnInit {
 
 
 
-  findCityByGetCity(city:string):Observable<weatherDto[]>{
-  //  return this.searching.pipe(map((res) =>res.filter((res) =>res.woeid === res.woeid)))
+
+
+  findCityByGetCity(city:string){
 
 
 return this.searching = this.weatherService.getCityByApi(city).pipe(
-  map((res) =>res.filter((res) =>res.title === res.title && res.woeid === res.woeid)),
-  catchError(err => {throw 'error in get city name from api ' + err})
+
+  map((res) =>res.filter((res) =>res.title === res.title && res.latt_long === res.latt_long)),
+
+  catchError(err => {throw 'error in get city name from api ' + err.status
+
+
+})
 
 )
 

@@ -4,29 +4,31 @@
 
     <div class="col-md-6 offset-sm-3 mt-4 ">
       <input  placeholder="searching..."  #SearchBox (input)="search(SearchBox.value)">
-      <button type="button" class="btn btn-primary ml-2" (click)="findCityByGetCity(SearchBox.value)" id="" >click</button>
+      <button type="button" class="btn btn-primary ml-2"  id="" (click)="findCityByGetCity(SearchBox.value)">click</button>
       <br><br>
-      <div class="loading" *ngIf="loading">
-        loading...
+      <div class="progress" *ngIf="loading">
+        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
-      <table class="table ">
+      <table class="table table-dark ">
         <thead>
           <tr>
-            <th>Name City</th>
+            <th></th>
+            <th scope="col">Name City</th>
             <!-- <th>weather_state_name</th> -->
-            <th>weather woeid</th>
-            <th > weatherImage</th>
+            <th scope="col">weather woeid</th>
+            <th scope="col"> weatherImage</th>
 
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of searching |async">
 
-            <td>{{item.title}}</td>
+            <td scope="row">#</td>
+            <td >{{item.title}}</td>
 
-            <td>{{item.woeid}}</td>
+            <td >{{item.woeid}}</td>
             <!-- <td  >{{f.weather_state_name}}</td> -->
-            <td *ngIf="item && item.weather_state_abbr">
+            <td >
                 <img src="https://www.metaweather.com/api/location/img/weather/png/{{item.weather_state_abbr}}.png">
             </td>
 

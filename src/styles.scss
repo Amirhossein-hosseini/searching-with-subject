@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+
+  background-image: url('./assets/Tehran.png');
+  background-size: cover;
+  background-repeat: repeat-y;
+  background-attachment: fixed;
+
+}
+
 @import '~bootstrap/dist/css/bootstrap.min.css'
+
