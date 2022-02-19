@@ -9,7 +9,7 @@
         <button type="button" class="btn btn-primary ml-2"  id=""(click)="findCityByGetCity(text)" >click</button>
         <br><br>
         <p >{{text}}</p>
-        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" *ngIf="loading"></ngx-loading>
+        <!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" *ngIf="loading"></ngx-loading> -->
 
         <table class="table table-dark ">
           <thead>
@@ -31,7 +31,8 @@
               <td >{{item.woeid}}</td>
               <!-- <td  >{{f.weather_state_name}}</td> -->
               <td *ngIf="item.weather_state_name">
-                  <img src="https://www.metaweather.com/img/weather/png/{{item.weather_state_name}}.png">
+                <!-- {{item.weather_state_name}} -->
+                  <!-- <img src="https://www.metaweather.com/static/img/weather/png/{{item.weather_state_name}}.png"> -->
               </td>
 
             </tr>

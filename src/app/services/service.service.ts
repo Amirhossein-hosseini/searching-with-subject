@@ -13,7 +13,7 @@ export class weatherservice {
   constructor(private http:HttpClient) { }
 
   private url ='https://www.metaweather.com/api/location/search/'
-private url2 = 'https://www.metaweather.com/api/location/'
+ private url2 = 'https://www.metaweather.com/api/location/'
 
 
   getCityByApi(query:string):Observable<any[]>{
@@ -38,9 +38,9 @@ private url2 = 'https://www.metaweather.com/api/location/'
 
 }
 
-public getAll():Observable<any[]>{
-  let call1 = this.http.get(this.url)
-  let call2 = this.http.get(this.url2)
+public getAll():Observable<weatherDto[]>{
+  let call1 = this.http.get<any>(this.url)
+  let call2 = this.http.get<weatherDto[]>(this.url2)
 
   return forkJoin ([call1,call2])
 }

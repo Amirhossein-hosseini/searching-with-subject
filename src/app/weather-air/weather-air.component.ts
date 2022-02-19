@@ -1,6 +1,6 @@
 import { weatherservice } from './../services/service.service';
-import { Component, OnInit } from '@angular/core';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, Observable, pipe, Subject, switchMap, tap, throwError,mergeMap, concatMap, of, combineLatest } from 'rxjs';
+import { Component, OnInit, ɵsetCurrentInjector } from '@angular/core';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, Observable, pipe, Subject, switchMap, tap, throwError,mergeMap, concatMap, of, combineLatest, retry } from 'rxjs';
 import { weatherDto } from '../Dto/weatherDto.dto';
 import { weathergetWoeid } from '../Dto/weathergetWoeid.st,'
 import * as _ from 'lodash'
@@ -25,37 +25,34 @@ withRefresh = false
 
 
 
-
-    //   this.searching = this.subject.pipe(
-    //    tap(_ =>this.loading =true),
-    //    debounceTime(300),
-    //    distinctUntilChanged(),
-    //    switchMap((term) =>this.findCityByGetCity(term)),
-    //    tap(_ =>this.loading = false),
-
-
-    //  )
+   this.searching =  this.searching = this.subject.pipe(
+       tap(_ =>this.loading =true),
+       debounceTime(300),
+       distinctUntilChanged(),
+       switchMap((term) => this.findCityByGetCity(term)),
+       tap(_ =>this.loading = false),
 
 
-     this.searching = this.subject.pipe(
-      tap(_ =>this.loading =true),
-      debounceTime(300),
-      distinctUntilChanged(),
-      concatMap((term) =>this.weatherService.getCityByApi(term)),
-      tap(_ =>this.loading = false),
+     )
 
 
-    )
+    //  this.searching = this.subject.pipe(
+    //   tap(_ =>this.loading =true),
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   concatMap((term) =>this.weatherService.getCityByApi(term)),
+    //   tap(_ =>this.loading = false),
+
+
+    // )
 
      }
 
-    // search$(){
-    //  return this.searching = this.route.params.pipe(
-    //    tap(_ =>this.loading = true),
-    //     switchMap((term:Params) =>this.getCity(term['woeid'])),
-    //     tap(_ =>this.loading = false)
-    //   )
-    // }
+
+getSearching():Observable<weatherDto[]>{
+  const data = this.searching
+  return data
+}
 
 
   search(text:string){
@@ -66,14 +63,23 @@ withRefresh = false
 
 
 
+getCity(woeid:number):Observable<weatherDto[]>{
 
-getCity(woeid:number){
+  return  this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(
+    map((res) =>res.filter((res) =>res.woeid === res.woeid))
+  )
 
- const data = this.weatherService.getAll().pipe(
-   map((res) =>{
-     return this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(map((res) =>res))
-   })
- )
+
+
+//  const data = this.weatherService.getAll().pipe(
+//    map((res) =>{
+//      return this.searching = this.weatherService.getLocationByWoeid(woeid).pipe(map((res) =>res))
+//    })
+
+//  )
+
+
+
 
 
 
@@ -89,17 +95,25 @@ getCity(woeid:number){
 
 
 
-  findCityByGetCity(city:string){
+  findCityByGetCity(city:string):Observable<weatherDto[]>{
+    let data =  _.find(this.searching,(o:number) =>{
+      return this.searching = this.getCity(o)
+     })
 
-    const data = this.weatherService.getAll().pipe(
-      map((res) =>{
-        return this.searching = this.weatherService.getCityByApi(city).pipe(map((res) =>res))
-      })
-    )
+     if(city){
+       data = this.weatherService.getCityByApi(city).pipe(map((res =>res)))
+       this.searching = data
+     }
 
+    return this.searching
 
+    // data = this.weatherService.getCityByApi(city).pipe(map((res) =>res))
 
-return data
+    // this.searching = data
+
+    // return this.searching
+
+  //  return data
 
   }
 }
