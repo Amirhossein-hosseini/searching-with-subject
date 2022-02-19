@@ -1,9 +1,8 @@
 export class weathergetWoeid{
   constructor(
  public woeid:number ,
-// public applicable_date:string,
 public title:string,
-public weather_state_abbr:string
+public latt_long:string,
+public location_type:string
   ){}
-  // title?:string
 }

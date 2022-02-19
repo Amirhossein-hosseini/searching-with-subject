@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable,forkJoin, of, concatMap, from } from 'rxjs';
+import { Params, ParamMap } from '@angular/router';
+import { map, Observable,forkJoin, of, concatMap, from, switchMap, mergeMap } from 'rxjs';
 import { weatherDto } from '../Dto/weatherDto.dto';
 import { weathergetWoeid } from '../Dto/weathergetWoeid.st,';
 
@@ -12,37 +13,37 @@ export class weatherservice {
   constructor(private http:HttpClient) { }
 
   private url ='https://www.metaweather.com/api/location/search/'
-  private url2 ='https://www.metaweather.com/api/location/'
+private url2 = 'https://www.metaweather.com/api/location/'
 
 
-
-  getCityByApi(query:string):Observable<weatherDto[]>{
-
+  getCityByApi(query:string):Observable<any[]>{
 
     let params = new HttpParams()
     .set('query',query)
-     .set('title','title')
-     .set('larr_long','latt_long')
 
 
-
-    return this.http.get<weatherDto[]>(this.url,{params})
+    return this.http.get<any>(this.url,{params})
   }
 
   getLocationByWoeid(woeid:number):Observable<weatherDto[]>{
 
+    // let headers = new Headers()
+    // headers.append('Content-Type', 'application/json');
+    // headers.append('projectid', );
 
 
-    let params = new HttpParams()
-    .set('woeid',woeid)
-    .set('latt_long','latt_long')
+    return this.http.get<weatherDto[]>(`https://www.metaweather.com/api/location/${woeid}/` )
 
-
-
-    return this.http.get<weatherDto[]>(this.url2,{params})
-  }
 
 
 }
 
+public getAll():Observable<any[]>{
+  let call1 = this.http.get(this.url)
+  let call2 = this.http.get(this.url2)
 
+  return forkJoin ([call1,call2])
+}
+
+
+}
